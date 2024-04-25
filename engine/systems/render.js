@@ -1,4 +1,4 @@
-import {AnimatedSpriteComponent, Collision2DComponent, Graphics2DComponent} from '../components/index.js';
+import {AnimatedSpriteComponent, Collision2DComponent, Graphics2DComponent, Movement2DComponent} from '../components/index.js';
 import {EntityList} from '../entities/index.js';
 import {GlobalDrawContext, GlobalGameState} from '../../globals.js';
 import {GlobalConfig} from '../../config.js';
@@ -43,16 +43,27 @@ export class RenderSystem {
      * Draws an entity with animated sprites on the canvas using both the graphics and animation component.
      * @param {Graphics2DComponent} graphics The graphics component to draw.
      * @param {AnimatedSpriteComponent} animation The animation component to get the active sprite from.
+     * @param {boolean} flipped Whether to flip the given graphics horizontally.
      */
-    static drawAnimated(graphics, animation) {
+    static drawAnimated(graphics, animation, flipped) {
         const activeSpriteId = animation.activeSpriteImageId;
         const image = SceneManager.currentScene.imageManager.images.get(activeSpriteId);
 
         if (image !== undefined) {
-            GlobalDrawContext.drawImage(image, graphics.position.x, graphics.position.y, graphics.width, graphics.height);
+            if (flipped) {
+                // flip draw context
+                GlobalDrawContext.scale(-1, 1);
+                
+                GlobalDrawContext.drawImage(image, -graphics.position.x - graphics.width, graphics.position.y, graphics.width, graphics.height);
+
+                // Reset current transformation matrix to the identity matrix
+                GlobalDrawContext.setTransform(1, 0, 0, 1, 0, 0);
+            }
+            else {
+                GlobalDrawContext.drawImage(image, graphics.position.x, graphics.position.y, graphics.width, graphics.height);
+            }            
         }
     }
-
 
     /**
      * Draws colliders for debug purposes.
@@ -102,7 +113,16 @@ export class RenderSystem {
 
         for (const iEntity of RenderSystem.getRelevantEntities()) {
             if (iEntity.hasComponent(AnimatedSpriteComponent.identifier)) {
-                RenderSystem.drawAnimated(iEntity[Graphics2DComponent.identifier], iEntity[AnimatedSpriteComponent.identifier]);
+                if (iEntity.hasComponent(Movement2DComponent.identifier)) {
+                    RenderSystem.drawAnimated(
+                        iEntity[Graphics2DComponent.identifier],
+                        iEntity[AnimatedSpriteComponent.identifier],
+                        iEntity[Movement2DComponent.identifier].velocity.x < 0
+                    );
+                }
+                else {
+                    RenderSystem.drawAnimated(iEntity[Graphics2DComponent.identifier], iEntity[AnimatedSpriteComponent.identifier]);
+                }                
             }
             else {
                 RenderSystem.draw(iEntity[Graphics2DComponent.identifier]);

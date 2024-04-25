@@ -16,10 +16,11 @@ export class ConsumableComponent extends Component {
      * Creates a consumable component.
      * @param {number} value The value of the consumable.
      */
-    constructor(value) {
+    constructor(value, isBomb = false) {
         super();
 
         this._value = value;
+        this._isBomb = isBomb;
     }
 
     /**
@@ -28,5 +29,12 @@ export class ConsumableComponent extends Component {
      */
     get value() {
         return this._value;
+    }
+
+    /**
+     * Gets whether the consumable is a bomb.
+     */
+    get isBomb() {
+        return this._isBomb;
     }
 }

@@ -28,6 +28,7 @@ const defineCupcakeWorld = () => {
     cupcakeWorld.imageManager.addImage('tile_mid', 'images/tile_cake_mid.png');
     cupcakeWorld.imageManager.addImage('tile_right', 'images/tile_cake_right.png');
     cupcakeWorld.imageManager.addImage('cupcake', 'images/cupcake.png');
+    cupcakeWorld.imageManager.addImage('bomb', 'images/bomb.png');
     cupcakeWorld.imageManager.addImage('player_default', 'images/player_default.png');
     cupcakeWorld.imageManager.addImage('player_hurt', 'images/player_hurt.png');
     cupcakeWorld.imageManager.addImage('player_jump', 'images/player_jump.png');
@@ -36,6 +37,7 @@ const defineCupcakeWorld = () => {
     cupcakeWorld.imageManager.addImage('player_walk_3', 'images/player_walk_3.png');
     cupcakeWorld.soundManager.addSfx('drop', 'sound/drop.mp3');
     cupcakeWorld.soundManager.addSfx('eat', 'sound/eat.ogg');
+    cupcakeWorld.soundManager.addSfx('bomb', 'sound/bomb.wav');
     cupcakeWorld.soundManager.addBackgroundMusic('sound/happyarcade.mp3')
     cupcakeWorld.createEntities = () => {
         for (let i = 0; i <= 9; i++) {
@@ -56,6 +58,7 @@ const defineSpaceWorld = () => {
     spaceWorld.imageManager.addImage('tile_mid', 'images/tile_moon_mid.png');
     spaceWorld.imageManager.addImage('tile_right', 'images/tile_moon_right.png');
     spaceWorld.imageManager.addImage('cupcake', 'images/cupcake.png');
+    spaceWorld.imageManager.addImage('bomb', 'images/bomb.png');
     spaceWorld.imageManager.addImage('star', 'images/star.png');
     spaceWorld.imageManager.addImage('player_default', 'images/player_default.png');
     spaceWorld.imageManager.addImage('player_hurt', 'images/player_hurt.png');
@@ -65,7 +68,8 @@ const defineSpaceWorld = () => {
     spaceWorld.imageManager.addImage('player_walk_3', 'images/player_walk_3.png');
     spaceWorld.soundManager.addSfx('drop', 'sound/drop.mp3');
     spaceWorld.soundManager.addSfx('eat', 'sound/eat.ogg');
-    spaceWorld.soundManager.addBackgroundMusic('sound/space.mp3')
+    spaceWorld.soundManager.addSfx('bomb', 'sound/bomb.wav');
+    spaceWorld.soundManager.addBackgroundMusic('sound/enchanted tiki 86.mp3')
     spaceWorld.createEntities = () => {
         for (let i = 0; i <= 9; i++) {
             const tileType = i === 0 ? TileType.LEFT :
@@ -77,11 +81,35 @@ const defineSpaceWorld = () => {
     };
 }
 
-const defineThirdWorld = () => {
-    /*
-     * TODO TASK
-     *  Define a third world with another scene. Use the above scenes for inspiration. Try experimenting with different assets and settings.
-     */
+const defineMountainsWorld = () => {
+    const mountainWorld = new Scene(GlobalConfig.THIRD_SCENE_NAME, false);
+    mountainWorld.imageManager.addBackground('images/background_mountains.png');
+    mountainWorld.setLightFont();
+    mountainWorld.imageManager.addImage('tile_left', 'images/tile_tundra_left.png');
+    mountainWorld.imageManager.addImage('tile_mid', 'images/tile_tundra_mid.png');
+    mountainWorld.imageManager.addImage('tile_right', 'images/tile_tundra_right.png');
+    mountainWorld.imageManager.addImage('icecream', 'images/icecream.png');
+    mountainWorld.imageManager.addImage('bomb', 'images/bomb.png');
+    mountainWorld.imageManager.addImage('star', 'images/star.png');
+    mountainWorld.imageManager.addImage('cupcake', 'images/cupcake.png');
+    mountainWorld.imageManager.addImage('player_hurt', 'images/bear_fall.png');
+    mountainWorld.imageManager.addImage('player_jump', 'images/bear_jump.png');
+    mountainWorld.imageManager.addImage('player_walk_1', 'images/bear_walk_1.png');
+    mountainWorld.imageManager.addImage('player_walk_2', 'images/bear_walk_2.png');
+    mountainWorld.imageManager.addImage('player_walk_3', 'images/bear_walk_3.png');
+    mountainWorld.soundManager.addSfx('drop', 'sound/drop.mp3');
+    mountainWorld.soundManager.addSfx('eat', 'sound/eat.ogg');
+    mountainWorld.soundManager.addSfx('bomb', 'sound/bomb.wav');
+    mountainWorld.soundManager.addBackgroundMusic('sound/Christmas synths.ogg')
+    mountainWorld.createEntities = () => {
+        for (let i = 0; i <= 9; i++) {
+            const tileType = i === 0 ? TileType.LEFT :
+                i === 9 ? TileType.RIGHT :
+                    TileType.MID;
+
+            TileFactory.createTile(new Vector2(i * 50, GlobalConfig.GROUND_LEVEL), tileType);
+        }
+    };
 }
 
 /**
@@ -90,7 +118,7 @@ const defineThirdWorld = () => {
 function setupScenes() {
     defineCupcakeWorld();
     defineSpaceWorld();
-    defineThirdWorld();
+    defineMountainsWorld();
 }
 
 /**

@@ -10,14 +10,14 @@ export const CollisionCheckDirection = Object.freeze({
 })
 
 /**
- * Abstract class describing a collider.
+ * Abstract class describing a collider. 
  * @abstract
  * @class
  */
 export class Collider {
     /**
      * Checks whether the given point is inside the collider (not counting borderlines).
-     * @param {Vector2} point The point to check.
+     * @param {Vector2} point The point to check.  
      * @param {string} direction The direction to check. Defaults to both.
      * @returns {boolean} Whether the point is inside the collider.
      */

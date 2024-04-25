@@ -1,4 +1,4 @@
-import {Graphics2DComponent} from '../components/index.js';
+import {ConsumableComponent, Graphics2DComponent} from '../components/index.js';
 import {EntityList, EntityTypes} from '../entities/index.js';
 import {GlobalGameState} from '../../globals.js';
 import {GlobalConfig} from '../../config.js';
@@ -28,7 +28,7 @@ export class GarbageCollectorSystem {
                 /* if (iEntity.type === EntityTypes.PLAYER) { // this resets the player whenever they fall out of the screen
                     Player.reset();
                 } */
-                if (iEntity.type === EntityTypes.FOOD) {
+                if (iEntity.type === EntityTypes.FOOD && !iEntity[ConsumableComponent.identifier].isBomb) {
                     if (GlobalGameState.current.lives > 1) {
                         GlobalGameState.current.lives -= 1;
                     }

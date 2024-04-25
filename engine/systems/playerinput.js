@@ -40,13 +40,13 @@ export class PlayerInputSystem {
 
             switch (true) {
                 case KeyBinds.ACTION_MOVE_LEFT.includes(event.key): {
-                    playerMovement.setVelocity(new Vector2(-GlobalConfig.PLAYER_MOVEMENT_SPEED, playerMovement.velocity.y));
+                    playerMovement.setVelocity(new Vector2(-GlobalConfig.PLAYER_MOVEMENT_SPEED - GlobalGameState.current.memo.get('PlayerSpeed') || 0, playerMovement.velocity.y));
                     lastMovementKeyPressed = event.key;
 
                     break;
                 }
                 case KeyBinds.ACTION_MOVE_RIGHT.includes(event.key): {
-                    playerMovement.setVelocity(new Vector2(GlobalConfig.PLAYER_MOVEMENT_SPEED, playerMovement.velocity.y));
+                    playerMovement.setVelocity(new Vector2(GlobalConfig.PLAYER_MOVEMENT_SPEED + GlobalGameState.current.memo.get('PlayerSpeed') || 0, playerMovement.velocity.y));
                     lastMovementKeyPressed = event.key;
 
                     break;
